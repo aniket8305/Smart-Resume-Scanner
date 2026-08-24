@@ -2,59 +2,47 @@ import { JobDescription } from "@/types";
 
 export const SAMPLE_JOBS: JobDescription[] = [
   {
-    id: "job-fullstack-sr",
-    title: "Senior Full Stack Engineer",
+    id: "job-fullstack",
+    title: "Full Stack Developer",
     department: "Engineering",
-    experienceLevel: "Senior",
-    minYearsExperience: 5,
+    experienceLevel: "Mid-level",
+    minYearsExperience: 3,
     requiredSkills: [
       "React",
-      "Next.js",
       "TypeScript",
       "Node.js",
       "PostgreSQL",
       "RESTful APIs",
       "Git",
-      "System Design",
     ],
     preferredSkills: [
       "Docker",
       "AWS",
       "Tailwind CSS",
       "Redis",
-      "GraphQL",
-      "CI/CD",
-      "Unit Testing",
     ],
-    education: ["Bachelor's or Master's in Computer Science or related field"],
+    education: ["Bachelor's in Computer Science or equivalent practical experience"],
     responsibilities: [
-      "Architect and scale end-to-end full stack web applications using React, Next.js, and Node.js.",
-      "Design efficient relational schemas, write optimized SQL queries, and manage Postgres databases.",
-      "Lead system design discussions, maintain high test coverage, and mentor junior engineers.",
-      "Collaborate with product and design teams to deliver high-impact user experiences.",
+      "Develop user-facing features with React and TypeScript.",
+      "Build and maintain REST APIs with Node.js and PostgreSQL.",
+      "Write automated tests and collaborate with team members on code reviews.",
     ],
-    rawText: `Position: Senior Full Stack Engineer
-Department: Engineering | Experience: 5+ Years | Senior Level
+    rawText: `Role: Full Stack Developer
+Experience Required: 3+ years
 
-We are looking for a Senior Full Stack Engineer to lead the development of our high-scale cloud platforms.
-
-Key Requirements:
-- 5+ years of software development experience with modern full stack applications.
-- Strong proficiency in React, Next.js, TypeScript, and modern JavaScript (ES6+).
-- Solid experience building backend services in Node.js, Express, or similar frameworks.
-- Deep expertise with relational databases (PostgreSQL, MySQL), query optimization, and schema design.
-- Hands-on experience with RESTful APIs, Microservices, and System Design principles.
-- Experience with Docker, AWS cloud services (S3, EC2, Lambda), and CI/CD pipelines is preferred.
-- Familiarity with Tailwind CSS, Redis caching, GraphQL, and Unit Testing (Jest/Vitest).
-- Bachelor's degree in Computer Science, Software Engineering, or equivalent practical experience.
-- Strong problem-solving, communication, and technical leadership skills.`,
+Responsibilities:
+- Build responsive frontend features in React and TypeScript.
+- Implement backend API routes and business logic in Node.js.
+- Work with PostgreSQL databases, write queries, and design tables.
+- Use Git for version control and collaborate via pull requests.
+- Experience with Docker, AWS, Redis, and Tailwind CSS is a plus.`,
   },
   {
-    id: "job-frontend-mid",
-    title: "Frontend Engineer (React / TypeScript)",
+    id: "job-frontend",
+    title: "Frontend Developer",
     department: "Frontend Team",
     experienceLevel: "Mid-level",
-    minYearsExperience: 3,
+    minYearsExperience: 2,
     requiredSkills: [
       "React",
       "TypeScript",
@@ -66,81 +54,62 @@ Key Requirements:
     ],
     preferredSkills: [
       "Next.js",
-      "Redux",
-      "Unit Testing",
       "RESTful APIs",
-      "Problem Solving",
-      "Communication",
+      "Unit Testing",
     ],
-    education: ["Bachelor's in Computer Science, Design, or equivalent"],
+    education: ["Degree in Computer Science, Design, or equivalent experience"],
     responsibilities: [
-      "Build delightful, accessible, and responsive user interfaces using React and Tailwind CSS.",
-      "Write clean, type-safe code using TypeScript.",
-      "Optimize frontend performance, Core Web Vitals, and load times.",
-      "Integrate RESTful and GraphQL APIs with robust state management.",
+      "Implement UI components from Figma designs using React and Tailwind CSS.",
+      "Write clean, type-safe code in TypeScript.",
+      "Connect frontend interfaces to backend REST APIs.",
     ],
-    rawText: `Position: Frontend Engineer (React / TypeScript)
-Department: Frontend Team | Experience: 3+ Years | Mid-Level
-
-We are seeking a creative Frontend Engineer to build world-class user interfaces.
+    rawText: `Role: Frontend Developer
+Experience: 2+ years
 
 Requirements:
-- 3+ years of professional experience building modern web apps with React.
-- Strong proficiency in TypeScript, JavaScript (ES6+), HTML5, and modern CSS3.
-- Proven experience with Tailwind CSS, responsive design, and CSS animations.
-- Familiarity with state management libraries (Redux, Zustand, Context API).
-- Experience integrating RESTful APIs and asynchronous data fetching.
-- Understanding of frontend testing with Jest, Vitest, or React Testing Library.
-- Knowledge of Next.js and web performance optimization is a strong plus.`,
+- Strong working knowledge of React, JavaScript (ES6+), and TypeScript.
+- Proficiency in HTML5, modern CSS3, and Tailwind CSS.
+- Experience consuming RESTful APIs and managing client-side state.
+- Familiarity with Git workflows.
+- Knowledge of Next.js and testing tools like Jest is helpful.`,
   },
   {
-    id: "job-ai-ml-sr",
-    title: "AI / Machine Learning Engineer",
-    department: "Data & AI",
-    experienceLevel: "Senior",
-    minYearsExperience: 4,
+    id: "job-backend",
+    title: "Backend Developer",
+    department: "Backend Team",
+    experienceLevel: "Mid-level",
+    minYearsExperience: 3,
     requiredSkills: [
       "Python",
-      "Machine Learning",
-      "Deep Learning",
-      "PyTorch",
-      "Natural Language Processing",
-      "Pandas",
-      "Generative AI",
+      "FastAPI",
+      "PostgreSQL",
+      "RESTful APIs",
+      "Git",
     ],
     preferredSkills: [
-      "FastAPI",
       "Docker",
+      "Redis",
       "AWS",
-      "TensorFlow",
-      "SQL",
-      "PostgreSQL",
-      "System Design",
+      "Unit Testing",
     ],
-    education: ["Bachelor's or Master's in Computer Science, Data Science, AI, or Mathematics"],
+    education: ["Bachelor's in Computer Science or related field"],
     responsibilities: [
-      "Design, train, and deploy machine learning and GenAI models in production.",
-      "Build NLP pipelines, RAG systems, and fine-tune large language models.",
-      "Develop high-performance inference APIs using FastAPI and Python.",
-      "Collaborate with data engineers to optimize feature pipelines and data ingestion.",
+      "Build and maintain backend services and REST APIs with Python.",
+      "Design database schemas and optimize queries in PostgreSQL.",
+      "Write automated tests and maintain deployment scripts.",
     ],
-    rawText: `Position: AI / Machine Learning Engineer
-Department: Data & AI | Experience: 4+ Years | Senior Level
-
-We are hiring an AI/ML Engineer to develop intelligent AI features and foundation model integrations.
+    rawText: `Role: Backend Developer
+Experience: 3+ years
 
 Requirements:
-- 4+ years of hands-on experience in Machine Learning, Deep Learning, and NLP.
-- Strong proficiency in Python, PyTorch (or TensorFlow), Scikit-Learn, and Pandas.
-- Proven experience with Generative AI, Large Language Models (LLMs), Prompt Engineering, and RAG architectures.
-- Experience with Vector Databases (Pinecone, ChromaDB, Weaviate) and embedding pipelines.
-- Experience serving ML models with FastAPI, Flask, Docker, and Cloud platforms (AWS/GCP).
-- Solid understanding of SQL and data preprocessing pipelines.
-- Master's or Bachelor's in CS, AI, Data Science, or related quantitative field.`,
+- Hands-on experience developing backend applications with Python (FastAPI or Django).
+- Solid experience with relational databases, specifically PostgreSQL.
+- Experience designing and documenting RESTful APIs.
+- Familiarity with Git, Docker, and Redis caching.`,
   },
   {
-    id: "job-devops-cloud",
-    title: "DevOps & Cloud Infrastructure Engineer",
+    id: "job-devops",
+    title: "DevOps Engineer",
     department: "Infrastructure",
     experienceLevel: "Mid-level",
     minYearsExperience: 3,
@@ -149,78 +118,61 @@ Requirements:
       "Docker",
       "Kubernetes",
       "CI/CD",
-      "Terraform",
       "Linux",
       "Git",
     ],
     preferredSkills: [
+      "Terraform",
       "Python",
-      "Golang",
       "Monitoring",
-      "Security",
-      "Nginx",
-      "PostgreSQL",
     ],
-    education: ["Bachelor's in Computer Science, IT, or equivalent experience"],
+    education: ["Bachelor's in CS/IT or equivalent experience"],
     responsibilities: [
-      "Manage cloud infrastructure on AWS and automate provisioning with Terraform.",
-      "Design, deploy, and maintain containerized workloads on Kubernetes.",
-      "Build resilient CI/CD pipelines using GitHub Actions or GitLab CI.",
-      "Monitor system health, alerts, and ensure 99.9% platform uptime.",
+      "Maintain and automate cloud infrastructure on AWS.",
+      "Configure Docker containers and Kubernetes clusters.",
+      "Maintain CI/CD deployment pipelines.",
     ],
-    rawText: `Position: DevOps & Cloud Infrastructure Engineer
-Department: Infrastructure | Experience: 3+ Years | Mid-Level
-
-We are seeking a DevOps Engineer to scale our cloud infrastructure and deployment automation.
+    rawText: `Role: DevOps Engineer
+Experience: 3+ years
 
 Requirements:
-- 3+ years in DevOps, Cloud Engineering, or SRE roles.
-- Strong hands-on experience with AWS cloud services (EKS, EC2, S3, RDS, IAM, VPC).
-- Deep experience with Docker containerization and Kubernetes orchestration.
-- Proficiency in Infrastructure as Code (IaC) using Terraform.
-- Building and maintaining automated CI/CD pipelines (GitHub Actions, Jenkins).
-- Solid Linux system administration, shell scripting, and basic Python/Go scripting.
-- Experience setting up monitoring tools (Prometheus, Grafana, Datadog).`,
+- Experience managing cloud infrastructure on AWS.
+- Hands-on experience with Docker and Kubernetes.
+- Experience setting up and maintaining CI/CD pipelines (GitHub Actions, GitLab).
+- Strong Linux administration skills.
+- Familiarity with Terraform and Python scripting is a plus.`,
   },
   {
-    id: "job-backend-eng",
-    title: "Backend Engineer (Python / Distributed Systems)",
-    department: "Core Backend",
+    id: "job-data-engineer",
+    title: "Data Engineer",
+    department: "Data Team",
     experienceLevel: "Mid-level",
     minYearsExperience: 3,
     requiredSkills: [
       "Python",
-      "FastAPI",
+      "SQL",
       "PostgreSQL",
-      "Redis",
-      "RESTful APIs",
-      "Microservices",
+      "Pandas",
       "Git",
     ],
     preferredSkills: [
+      "Apache Spark",
       "Docker",
       "AWS",
-      "Unit Testing",
-      "System Design",
-      "gRPC",
-      "CI/CD",
     ],
-    education: ["Bachelor's in Computer Science or related STEM field"],
+    education: ["Degree in Computer Science, Data Science, or related quantitative field"],
     responsibilities: [
-      "Build scalable, low-latency microservices using Python and FastAPI.",
-      "Design database schemas, query optimizations, and caching strategies with Redis and PostgreSQL.",
-      "Implement secure authentication, rate limiting, and API gateways.",
+      "Build data extraction, transformation, and ingestion pipelines.",
+      "Write and optimize SQL queries against PostgreSQL databases.",
+      "Pre-process datasets using Python and Pandas.",
     ],
-    rawText: `Position: Backend Engineer (Python / Distributed Systems)
-Department: Core Backend | Experience: 3+ Years | Mid-Level
-
-Seeking a Backend Engineer to build robust microservices and distributed APIs.
+    rawText: `Role: Data Engineer
+Experience: 3+ years
 
 Requirements:
-- 3+ years of backend development experience primarily in Python (FastAPI, Django, or Flask).
-- Strong knowledge of relational databases (PostgreSQL) and caching layers (Redis).
-- Experience designing RESTful APIs and event-driven microservices.
-- Experience with Unit Testing (pytest), Git, and containerization with Docker.
-- Understanding of distributed systems, concurrency, and API security (OAuth2, JWT).`,
-  }
+- Strong programming skills in Python and data manipulation with Pandas.
+- Strong SQL proficiency for querying and transforming data in PostgreSQL.
+- Experience with ETL pipelines and data modeling.
+- Familiarity with Git, Docker, and AWS cloud data tools.`,
+  },
 ];

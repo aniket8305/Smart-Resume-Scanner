@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Key, X, Sparkles, Check, ExternalLink, ShieldCheck } from "lucide-react";
+import { Key, X, Check, ShieldCheck } from "lucide-react";
 
 interface ApiKeyModalProps {
   isOpen: boolean;
@@ -47,15 +47,15 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({
         </button>
 
         <div className="flex items-center space-x-3 mb-4">
-          <div className="rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 p-2.5 text-white shadow-md shadow-indigo-600/20">
+          <div className="rounded-xl bg-slate-900 p-2.5 text-white dark:bg-indigo-600">
             <Key className="h-5 w-5" />
           </div>
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              AI Enhancement Settings
+              Gemini API Settings (Optional)
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Optional Google Gemini 1.5 Flash API Key
+              Configure Google Gemini API key for qualitative summaries
             </p>
           </div>
         </div>
@@ -63,7 +63,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({
         <form onSubmit={handleSave} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-              Gemini API Key
+              Google Gemini API Key
             </label>
             <input
               type="password"
@@ -74,16 +74,16 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({
             />
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center space-x-1">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-              <span>Key is stored securely in your local browser only.</span>
+              <span>Key is stored in your local browser only.</span>
             </p>
           </div>
 
           <div className="rounded-xl bg-slate-50 p-3 text-[11px] text-slate-600 dark:bg-slate-800/60 dark:text-slate-300 space-y-1">
             <p className="font-semibold text-slate-800 dark:text-slate-200">
-              ✨ Free Out-of-the-Box Mode:
+              Default Local Mode (No Key Required):
             </p>
             <p>
-              Leave blank to use the built-in local TF-IDF and NLP engine. It runs 100% offline with zero cost.
+              When left blank, the screener matches resumes using local TF-IDF text similarity and a 500+ skill taxonomy dictionary.
             </p>
           </div>
 
@@ -106,7 +106,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center space-x-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 hover:bg-indigo-500 transition-all"
+                className="inline-flex items-center space-x-1.5 rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 transition-all"
               >
                 {isSaved ? (
                   <>

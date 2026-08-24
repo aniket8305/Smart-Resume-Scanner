@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Briefcase, Plus, X, Sparkles, Check } from "lucide-react";
+import { Briefcase, Plus, X, Sparkles } from "lucide-react";
 import { JobDescription } from "@/types";
 import { SAMPLE_JOBS } from "@/data/sampleJobs";
 import { extractSkillsFromText } from "@/lib/nlpEngine";
@@ -16,13 +16,11 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
   onJobChange,
 }) => {
   const [newSkill, setNewSkill] = useState("");
-  const [isCustomMode, setIsCustomMode] = useState(false);
 
   const handleSelectPreset = (presetId: string) => {
     const found = SAMPLE_JOBS.find((j) => j.id === presetId);
     if (found) {
       onJobChange({ ...found });
-      setIsCustomMode(false);
     }
   };
 
@@ -48,7 +46,6 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
   const handleAutoExtractSkills = () => {
     const extracted = extractSkillsFromText(job.rawText);
     if (extracted.length > 0) {
-      // Merge unique skills
       const combined = Array.from(new Set([...job.requiredSkills, ...extracted]));
       onJobChange({
         ...job,
@@ -62,7 +59,7 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 gap-3">
         <div className="flex items-center space-x-2.5">
-          <div className="rounded-xl bg-indigo-50 p-2.5 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
+          <div className="rounded-xl bg-slate-100 p-2.5 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
             <Briefcase className="h-5 w-5" />
           </div>
           <div>
@@ -70,7 +67,7 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
               Target Job Specification
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Select a pre-built role preset or customize job description
+              Select a sample role or customize requirements
             </p>
           </div>
         </div>
@@ -85,11 +82,11 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
                 onClick={() => handleSelectPreset(preset.id)}
                 className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-all ${
                   isSelected
-                    ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/20"
+                    ? "bg-slate-900 text-white shadow-sm dark:bg-indigo-600"
                     : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                 }`}
               >
-                {preset.title.split("(")[0].trim()}
+                {preset.title}
               </button>
             );
           })}
@@ -108,7 +105,7 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
             value={job.title}
             onChange={(e) => onJobChange({ ...job, title: e.target.value })}
             className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-            placeholder="e.g. Senior Full Stack Engineer"
+            placeholder="e.g. Full Stack Developer"
           />
         </div>
 
@@ -150,15 +147,21 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
       {/* Required Skills Chips */}
       <div className="mt-4">
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
-            Mandatory Skills ({job.requiredSkills.length})
-          </label>
+          <div>
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+              Required Skills ({job.requiredSkills.length})
+            </label>
+            <span className="text-[10px] text-slate-400 block">
+              Extracted from job requirements or added manually
+            </span>
+          </div>
           <button
             onClick={handleAutoExtractSkills}
             className="inline-flex items-center space-x-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
+            title="Matches text against 500+ skill dictionary"
           >
             <Sparkles className="h-3 w-3" />
-            <span>Auto-detect from text</span>
+            <span>Extract from text</span>
           </button>
         </div>
 
@@ -166,13 +169,13 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
           {job.requiredSkills.map((skill) => (
             <span
               key={skill}
-              className="inline-flex items-center space-x-1 rounded-lg bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 border border-indigo-200/80 dark:bg-indigo-950/60 dark:text-indigo-300 dark:border-indigo-800"
+              className="inline-flex items-center space-x-1 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-800 border border-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
             >
               <span>{skill}</span>
               <button
                 type="button"
                 onClick={() => handleRemoveRequiredSkill(skill)}
-                className="text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-200"
+                className="text-slate-400 hover:text-rose-600 dark:hover:text-rose-400"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -186,7 +189,7 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
             type="text"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-            placeholder="Add required skill (e.g. Docker, GraphQL, Kubernetes)..."
+            placeholder="Add skill (e.g. Docker, PostgreSQL, React)..."
             className="flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           />
           <button
@@ -199,17 +202,22 @@ export const JobDescriptionCard: React.FC<JobDescriptionCardProps> = ({
         </form>
       </div>
 
-      {/* Raw JD Text Collapsible / Area */}
+      {/* Raw JD Text */}
       <div className="mt-4">
-        <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
-          Full Job Description (Used for TF-IDF Semantic Context)
-        </label>
+        <div className="flex items-center justify-between mb-1">
+          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+            Full Job Description
+          </label>
+          <span className="text-[10px] text-slate-400">
+            Used for text similarity and keyword matching
+          </span>
+        </div>
         <textarea
           rows={3}
           value={job.rawText}
           onChange={(e) => onJobChange({ ...job, rawText: e.target.value })}
           className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 text-xs text-slate-800 font-mono focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-          placeholder="Paste full job description text here..."
+          placeholder="Enter job description text..."
         />
       </div>
     </div>

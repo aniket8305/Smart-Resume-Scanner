@@ -1,15 +1,17 @@
-# Approach & Technical Architecture Write-Up
+# Approach & Technical Architecture
 
-### Problem-Solving Approach
-Recruiters waste hundreds of hours manually filtering resumes against dense job descriptions, often suffering from keyword bias and inconsistent scoring. To solve this, **TalentScan AI** implements a **hybrid dual-tier screening architecture** designed for high throughput, strict accuracy, and deterministic evaluation:
+### Problem & Solution
+Screening hundreds of resumes manually is repetitive and prone to inconsistent evaluation criteria. **TalentScan** automates this by providing a structured, explainable resume screening pipeline that matches candidates against specific job requirements using deterministic text processing and transparent scoring weights.
 
-1. **Deterministic Local NLP & Ontology Engine (Zero-Latency, Free)**: 
-   - Uses a 500+ entity taxonomy dictionary with fuzzy alias matching to accurately extract technical stacks, experience duration, education levels, and contact metadata.
-   - Computes multi-criteria weighted scoring (Technical Skills 40%, Experience 25%, Education 15%, and TF-IDF Cosine Similarity 20%).
-   - Generates deterministic gap analysis, strength breakdowns, and candidate-specific interview questions with zero external dependencies.
-
-2. **Qualitative LLM Layer (Optional Gemini 1.5 Flash)**:
-   - When configured, provides deep qualitative semantic reasoning, evaluating project complexity, leadership trajectory, and nuanced edge cases, with automated fallback to the local NLP engine on rate limits or errors.
-
-3. **Recruiter-Centric UX**:
-   - Features 1-click test drives with preloaded realistic candidates, batch PDF/Word parsing, dynamic scoring weight sliders, radar chart visualizations, and instant CSV/JSON exports.
+### Engineering Pipeline
+1. **Document Ingestion & Text Extraction**:
+   - Parses uploaded PDF (`pdfjs-dist`), Word DOCX (`mammoth`), or TXT resumes into clean plain text.
+2. **Information Extraction**:
+   - Matches candidate skills against a taxonomy dictionary of 500+ technical skills.
+   - Extracts estimated years of professional experience and degree levels using pattern recognition.
+3. **Scoring & Similarity**:
+   - Applies a weighted scoring formula: **Technical Skills (40%)**, **Experience Seniority (25%)**, **Education Level (15%)**, and **TF-IDF Text Similarity (20%)**.
+   - TF-IDF calculates the cosine similarity between the job description and candidate resume word vectors.
+4. **Ranking & Insights**:
+   - Generates candidate rankings with explicit matched vs. missing skill lists and gap analysis.
+   - Optional integration with Google Gemini API for qualitative interview question generation.

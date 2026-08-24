@@ -44,25 +44,24 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
 
   const processFiles = async (files: FileList | File[]) => {
     setUploadError(null);
-    setUploadStatus("Processing and parsing files...");
+    setUploadStatus("Extracting resume text...");
     const parsedList: CandidateResume[] = [];
 
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        setUploadStatus(`Extracting text from ${file.name} (${i + 1}/${files.length})...`);
+        setUploadStatus(`Parsing ${file.name} (${i + 1}/${files.length})...`);
         const text = await extractTextFromFile(file);
         const parsed = parseResumeText(text, file.name);
         parsedList.push(parsed);
       }
 
-      // Append new candidates
       onCandidatesChange([...candidates, ...parsedList]);
-      setUploadStatus(`Successfully parsed ${parsedList.length} resume(s)!`);
+      setUploadStatus(`Loaded ${parsedList.length} resume(s) successfully.`);
       setTimeout(() => setUploadStatus(null), 3000);
     } catch (err: any) {
       console.error(err);
-      setUploadError(err.message || "Failed to parse one or more files.");
+      setUploadError(err.message || "Failed to parse file.");
       setUploadStatus(null);
     }
   };
@@ -84,7 +83,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
 
   const handleLoadSampleResumes = () => {
     onCandidatesChange([...SAMPLE_RESUMES]);
-    setUploadStatus("Loaded 5 realistic candidate resumes!");
+    setUploadStatus("Loaded demo dataset (5 sample resumes).");
     setTimeout(() => setUploadStatus(null), 3000);
   };
 
@@ -101,15 +100,15 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 gap-3">
         <div className="flex items-center space-x-2.5">
-          <div className="rounded-xl bg-purple-50 p-2.5 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400">
+          <div className="rounded-xl bg-slate-100 p-2.5 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
             <UploadCloud className="h-5 w-5" />
           </div>
           <div>
             <h2 className="text-base font-bold text-slate-900 dark:text-white">
-              Candidate Resume Pipeline ({candidates.length})
+              Resumes to Screen ({candidates.length})
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Batch upload PDF, DOCX, or TXT resumes for screening
+              Upload PDF, DOCX, or TXT resumes, or load sample files
             </p>
           </div>
         </div>
@@ -118,17 +117,18 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         <div className="flex items-center space-x-2">
           <button
             onClick={handleLoadSampleResumes}
-            className="inline-flex items-center space-x-1.5 rounded-xl bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700 border border-indigo-200/80 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 dark:border-indigo-800 transition-all"
+            className="inline-flex items-center space-x-1.5 rounded-xl bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all"
+            title="Load sample resumes to test the screening pipeline."
           >
             <Users className="h-3.5 w-3.5" />
-            <span>Load 5 Test Candidates</span>
+            <span>Load Demo Dataset</span>
           </button>
 
           {candidates.length > 0 && (
             <button
               onClick={handleClearAll}
               className="inline-flex items-center space-x-1 rounded-xl border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-100 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-400 transition-colors"
-              title="Clear candidate list"
+              title="Clear all resumes"
             >
               <Trash2 className="h-3.5 w-3.5" />
             </button>
@@ -158,20 +158,20 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         />
 
         <div className="rounded-2xl bg-white p-3 shadow-sm border border-slate-100 dark:bg-slate-800 dark:border-slate-700 mb-3">
-          <UploadCloud className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <UploadCloud className="h-6 w-6 text-slate-700 dark:text-slate-300" />
         </div>
 
         <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
           Click to browse or drag and drop resumes here
         </p>
         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-          Supports PDF, Word (.docx), TXT files (Batch multi-file upload enabled)
+          Supports PDF, Word (.docx), and TXT files
         </p>
       </div>
 
       {/* Status or Error alerts */}
       {uploadStatus && (
-        <div className="mt-3 flex items-center space-x-2 rounded-xl bg-indigo-50 px-3 py-2 text-xs font-medium text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300">
+        <div className="mt-3 flex items-center space-x-2 rounded-xl bg-slate-100 px-3 py-2 text-xs font-medium text-slate-800 dark:bg-slate-800 dark:text-slate-200">
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
           <span>{uploadStatus}</span>
         </div>
@@ -184,15 +184,9 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         </div>
       )}
 
-      {/* Candidate Badges List */}
+      {/* Candidate List */}
       {candidates.length > 0 && (
         <div className="mt-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
-              Loaded Resumes Ready for Screening
-            </span>
-          </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
             {candidates.map((cand) => (
               <div
@@ -200,7 +194,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
                 className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs dark:border-slate-800 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-800 transition-colors"
               >
                 <div className="flex items-center space-x-2 truncate">
-                  <FileText className="h-4 w-4 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+                  <FileText className="h-4 w-4 text-slate-600 dark:text-slate-400 flex-shrink-0" />
                   <div className="truncate">
                     <p className="font-semibold text-slate-900 dark:text-white truncate">
                       {cand.candidateName}
@@ -217,6 +211,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
                     handleRemoveOne(cand.id);
                   }}
                   className="text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 ml-2"
+                  title="Remove candidate"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
@@ -224,22 +219,22 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
             ))}
           </div>
 
-          {/* Trigger Screen Now Button */}
+          {/* Trigger Screen Button */}
           <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end">
             <button
               onClick={onScreenNow}
               disabled={isProcessing || candidates.length === 0}
-              className="inline-flex items-center space-x-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-indigo-600/30 hover:from-indigo-500 hover:to-indigo-600 disabled:opacity-50 transition-all cursor-pointer"
+              className="inline-flex items-center space-x-2 rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 disabled:opacity-50 transition-all cursor-pointer"
             >
               {isProcessing ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Evaluating Pipeline...</span>
+                  <span>Processing...</span>
                 </>
               ) : (
                 <>
                   <CheckCircle2 className="h-4 w-4" />
-                  <span>Run Smart Screening & Rank Candidates</span>
+                  <span>Screen & Rank Candidates</span>
                 </>
               )}
             </button>

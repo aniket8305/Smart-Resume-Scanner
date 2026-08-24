@@ -8,9 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TalentScan AI - Smart Resume Screener & Candidate Ranking",
+  title: "TalentScan — Resume Screening & Candidate Ranking",
   description:
-    "AI-powered resume screening, skill gap analysis, and candidate ranking system built for modern talent acquisition.",
+    "Resume screening and candidate ranking pipeline using TF-IDF text similarity, skill extraction, and customizable scoring weights.",
 };
 
 export default function RootLayout({

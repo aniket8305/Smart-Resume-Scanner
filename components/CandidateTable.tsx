@@ -3,20 +3,14 @@
 import React, { useState } from "react";
 import {
   Search,
-  Filter,
   Download,
   Eye,
-  CheckCircle,
-  XCircle,
-  Clock,
   Briefcase,
   FileSpreadsheet,
   Layers,
-  ChevronRight,
-  ExternalLink,
-  Mail,
   Linkedin,
   Github,
+  X,
 } from "lucide-react";
 import { CandidateScore, ScreeningResult } from "@/types";
 import { exportToCSV, exportToJSON } from "@/lib/exportUtils";
@@ -42,7 +36,6 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [minScore, setMinScore] = useState<number>(0);
 
   // Filter candidates
   const filtered = results.filter((r) => {
@@ -57,9 +50,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
     const statusMatch =
       statusFilter === "all" || r.score.status === statusFilter;
 
-    const scoreMatch = r.score.overallScore >= minScore;
-
-    return textMatch && statusMatch && scoreMatch;
+    return textMatch && statusMatch;
   });
 
   const getScoreBadge = (score: number) => {
@@ -85,10 +76,10 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-bold text-slate-900 dark:text-white">
-              Screened Candidate Leaderboard ({filtered.length})
+              Candidate Leaderboard ({filtered.length})
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Ranked dynamically by weighted skill, experience, and semantic fit
+              Candidates are ranked using the configured scoring weights.
             </p>
           </div>
 
@@ -97,7 +88,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
             {selectedForCompare.length >= 2 && (
               <button
                 onClick={onOpenCompareModal}
-                className="inline-flex items-center space-x-1.5 rounded-xl bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm shadow-indigo-600/30 hover:bg-indigo-500 transition-all"
+                className="inline-flex items-center space-x-1.5 rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 transition-all"
               >
                 <Layers className="h-3.5 w-3.5" />
                 <span>Compare Selected ({selectedForCompare.length})</span>
@@ -118,7 +109,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
               disabled={results.length === 0}
               className="inline-flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors"
             >
-              <Download className="h-3.5 w-3.5 text-indigo-600" />
+              <Download className="h-3.5 w-3.5 text-slate-600 dark:text-slate-400" />
               <span>JSON</span>
             </button>
           </div>
@@ -134,8 +125,16 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by name, skill (e.g. React)..."
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-8 pr-3 py-1.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-8 pr-8 py-1.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
             />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
 
           {/* Status Tabs */}
@@ -165,11 +164,11 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
               <th className="py-3 px-4 w-12 text-center">Compare</th>
               <th className="py-3 px-3 w-12 text-center">Rank</th>
               <th className="py-3 px-4">Candidate</th>
-              <th className="py-3 px-4 w-44">Overall Fit</th>
-              <th className="py-3 px-4">Key Skills</th>
+              <th className="py-3 px-4 w-48">Score Breakdown</th>
+              <th className="py-3 px-4">Skill Match</th>
               <th className="py-3 px-3">Experience</th>
               <th className="py-3 px-4">Status</th>
-              <th className="py-3 px-4 text-right">Actions</th>
+              <th className="py-3 px-4 text-right">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -178,9 +177,9 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                 <td colSpan={8} className="py-12 text-center text-slate-500 dark:text-slate-400">
                   <div className="flex flex-col items-center justify-center space-y-2">
                     <Briefcase className="h-8 w-8 text-slate-300 dark:text-slate-600" />
-                    <p className="text-sm font-medium">No candidate resumes match current filter.</p>
+                    <p className="text-sm font-medium">No candidates to display.</p>
                     <p className="text-xs text-slate-400">
-                      Upload resumes or click &quot;Load 5 Test Candidates&quot; to see real rankings!
+                      Upload resumes or load the demo dataset to begin screening.
                     </p>
                   </div>
                 </td>
@@ -207,30 +206,16 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                         onChange={() => onToggleCompare(candidate.id)}
                         disabled={!isSelectedForCompare && selectedForCompare.length >= 3}
                         className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 cursor-pointer"
-                        title="Select up to 3 to compare"
+                        title="Select up to 3 candidates to compare"
                       />
                     </td>
 
                     {/* Rank */}
                     <td className="py-3 px-3 text-center font-bold text-slate-500 dark:text-slate-400">
-                      {index === 0 ? (
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 font-bold text-xs border border-amber-300">
-                          1
-                        </span>
-                      ) : index === 1 ? (
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-200 text-slate-800 font-bold text-xs">
-                          2
-                        </span>
-                      ) : index === 2 ? (
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-800 font-bold text-xs">
-                          3
-                        </span>
-                      ) : (
-                        `#${index + 1}`
-                      )}
+                      #{index + 1}
                     </td>
 
-                    {/* Candidate Name & Contact links */}
+                    {/* Candidate Name */}
                     <td className="py-3 px-4">
                       <div className="font-bold text-slate-900 dark:text-white text-sm">
                         {candidate.candidateName}
@@ -243,7 +228,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400"
+                            className="text-slate-600 hover:text-slate-900 dark:text-slate-400"
                           >
                             <Linkedin className="h-3 w-3" />
                           </a>
@@ -254,7 +239,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-slate-700 hover:text-black dark:text-slate-300"
+                            className="text-slate-600 hover:text-slate-900 dark:text-slate-400"
                           >
                             <Github className="h-3 w-3" />
                           </a>
@@ -262,7 +247,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                       </div>
                     </td>
 
-                    {/* Overall Fit Progress Bar */}
+                    {/* Score Breakdown Progress Bar */}
                     <td className="py-3 px-4">
                       <div className="flex items-center justify-between mb-1">
                         <span
@@ -270,7 +255,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                             score.overallScore
                           )}`}
                         >
-                          {score.overallScore}% Match
+                          {score.overallScore}% Overall Fit
                         </span>
                       </div>
                       <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
@@ -281,10 +266,10 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                           style={{ width: `${score.overallScore}%` }}
                         />
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-1 flex justify-between">
-                        <span>Tech: {score.technicalScore}%</span>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 flex justify-between">
+                        <span>Skills: {score.technicalScore}%</span>
                         <span>Exp: {score.experienceScore}%</span>
-                        <span>Edu: {score.educationScore}%</span>
+                        <span>Text: {score.keywordScore}%</span>
                       </div>
                     </td>
 
@@ -294,13 +279,13 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                         {score.matchedSkills.slice(0, 3).map((skill) => (
                           <span
                             key={skill}
-                            className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
+                            className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-800 border border-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
                           >
                             {skill}
                           </span>
                         ))}
                         {score.matchedSkills.length > 3 && (
-                          <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                          <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                             +{score.matchedSkills.length - 3}
                           </span>
                         )}
@@ -344,7 +329,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                           e.stopPropagation();
                           onSelectCandidate(item);
                         }}
-                        className="inline-flex items-center space-x-1 rounded-lg bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900 transition-colors"
+                        className="inline-flex items-center space-x-1 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 transition-colors"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         <span>Inspect</span>

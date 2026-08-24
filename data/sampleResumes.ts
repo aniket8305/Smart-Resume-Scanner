@@ -2,200 +2,172 @@ import { CandidateResume } from "@/types";
 
 export const SAMPLE_RESUMES: CandidateResume[] = [
   {
-    id: "cand-alex-morgan",
-    fileName: "Alex_Morgan_Senior_FullStack.pdf",
-    candidateName: "Alex Morgan",
-    email: "alex.morgan.dev@gmail.com",
-    phone: "+1 (555) 234-8901",
-    location: "San Francisco, CA (Remote)",
-    linkedin: "https://linkedin.com/in/alexmorgan-dev",
-    github: "https://github.com/alexm-stack",
+    id: "cand-demo-01",
+    fileName: "Demo_Candidate_01_FullStack.pdf",
+    candidateName: "Demo Candidate 01 (Full Stack)",
+    email: "demo.candidate01@example.com",
+    phone: "+1 (555) 010-1001",
+    location: "Austin, TX",
+    linkedin: "https://linkedin.com/in/demo-candidate-01",
+    github: "https://github.com/demo-candidate-01",
     extractedSkills: [
       "React",
-      "Next.js",
       "TypeScript",
       "Node.js",
       "PostgreSQL",
       "RESTful APIs",
+      "Git",
       "Docker",
-      "AWS",
       "Tailwind CSS",
       "Redis",
-      "Git",
-      "System Design",
-      "CI/CD",
       "Unit Testing",
-      "GraphQL",
-      "Problem Solving",
-      "Team Leadership",
     ],
-    extractedExperienceYears: 6,
+    extractedExperienceYears: 4,
     extractedEducation: [
-      "B.S. in Computer Science - University of California, Berkeley (2018)",
+      "B.S. in Computer Science - State University (2020)",
     ],
     extractedRoles: [
-      "Senior Full Stack Engineer at FinTech Horizons (2021 - Present)",
-      "Full Stack Developer at CloudNova Systems (2018 - 2021)",
+      "Full Stack Developer at TechCo (2021 - Present)",
+      "Junior Web Developer at Studio Alpha (2020 - 2021)",
     ],
     summary:
-      "Results-driven Senior Full Stack Engineer with 6+ years of experience architecting high-traffic web applications with Next.js, React, Node.js, and PostgreSQL. Proven track record of reducing latency by 45% and leading cross-functional engineering squads.",
-    rawText: `ALEX MORGAN
-Email: alex.morgan.dev@gmail.com | Phone: +1 (555) 234-8901 | San Francisco, CA
-LinkedIn: linkedin.com/in/alexmorgan-dev | GitHub: github.com/alexm-stack
-
-PROFESSIONAL SUMMARY
-Senior Full Stack Engineer with 6+ years of industry experience specializing in modern JavaScript/TypeScript ecosystems, Next.js, React, Node.js, and PostgreSQL. Experienced in distributed cloud systems (AWS, Docker), microservices, and leading high-velocity agile sprints.
-
-EXPERIENCE
-Senior Full Stack Engineer | FinTech Horizons | 2021 - Present
-- Architected enterprise financial dashboard serving 500k+ active users using Next.js 14, TypeScript, Tailwind CSS, and Node.js.
-- Designed distributed PostgreSQL schema and Redis caching layer, decreasing database query latency by 45%.
-- Implemented robust CI/CD pipelines via GitHub Actions and containerized microservices using Docker and AWS ECS.
-- Mentored 4 junior engineers and led quarterly system design architecture reviews.
-
-Full Stack Software Engineer | CloudNova Systems | 2018 - 2021
-- Developed RESTful APIs and GraphQL services in Express.js and TypeScript.
-- Built reusable UI component libraries with React, Redux Toolkit, and styled components.
-- Maintained 90%+ unit and integration test coverage using Jest and React Testing Library.
-
-EDUCATION
-B.S. in Computer Science | University of California, Berkeley | 2014 - 2018
-
-TECHNICAL SKILLS
-- Languages: TypeScript, JavaScript (ES6+), SQL, HTML5, CSS3, Python
-- Frontend: React, Next.js, Tailwind CSS, Redux, GraphQL
-- Backend: Node.js, Express.js, PostgreSQL, Redis, RESTful APIs, Microservices
-- DevOps & Tools: Docker, AWS (S3, EC2, Lambda), Git, CI/CD, Jest, Vitest, System Design`,
-  },
-  {
-    id: "cand-priya-sharma",
-    fileName: "Priya_Sharma_AI_MLEngineer.pdf",
-    candidateName: "Priya Sharma",
-    email: "priya.sharma.ai@outlook.com",
-    phone: "+1 (555) 345-6789",
-    location: "New York, NY",
-    linkedin: "https://linkedin.com/in/priyasharma-ai",
-    github: "https://github.com/priyasharma-ml",
-    extractedSkills: [
-      "Python",
-      "PyTorch",
-      "Machine Learning",
-      "Deep Learning",
-      "Natural Language Processing",
-      "Generative AI",
-      "Pandas",
-      "FastAPI",
-      "Docker",
-      "PostgreSQL",
-      "AWS",
-      "Git",
-      "System Design",
-      "Data Analysis",
-      "Problem Solving",
-    ],
-    extractedExperienceYears: 5,
-    extractedEducation: [
-      "M.S. in Artificial Intelligence - Columbia University (2020)",
-      "B.Tech in Computer Engineering - IIT Delhi (2018)",
-    ],
-    extractedRoles: [
-      "Lead AI/ML Engineer at Cognitive Dynamics (2022 - Present)",
-      "Machine Learning Scientist at DataCore Labs (2020 - 2022)",
-    ],
-    summary:
-      "AI/ML Engineer with 5 years of experience building Generative AI pipelines, NLP models, and production inference systems. Expert in PyTorch, Python, Hugging Face Transformers, RAG architectures, and FastAPI.",
-    rawText: `PRIYA SHARMA, M.S.
-Email: priya.sharma.ai@outlook.com | Phone: +1 (555) 345-6789 | New York, NY
-LinkedIn: linkedin.com/in/priyasharma-ai | GitHub: github.com/priyasharma-ml
+      "Full Stack developer with 4 years of experience building web applications using React, TypeScript, Node.js, and PostgreSQL.",
+    rawText: `DEMO CANDIDATE 01 (FULL STACK)
+Email: demo.candidate01@example.com | Phone: +1 (555) 010-1001 | Austin, TX
+LinkedIn: linkedin.com/in/demo-candidate-01 | GitHub: github.com/demo-candidate-01
 
 SUMMARY
-Senior AI/ML Engineer with 5+ years of experience designing and deploying scalable deep learning and NLP models. Deep expertise in Generative AI, Retrieval Augmented Generation (RAG), PyTorch, Python, vector databases, and high-throughput microservices.
+Full Stack Developer with 4 years of experience building web applications in TypeScript, React, Node.js, and PostgreSQL. Familiar with Docker and Tailwind CSS.
 
-PROFESSIONAL EXPERIENCE
-Lead AI/ML Engineer | Cognitive Dynamics | 2022 - Present
-- Built and deployed production RAG question-answering system using LangChain, ChromaDB, and fine-tuned LLMs, processing 2M+ monthly queries.
-- Built low-latency asynchronous model inference APIs using FastAPI and Docker on AWS SageMaker.
-- Optimized PyTorch model training pipelines with mixed precision, cutting GPU compute costs by 35%.
+EXPERIENCE
+Full Stack Developer | TechCo | 2021 - Present
+- Built web features in React and TypeScript with Tailwind CSS styling.
+- Developed backend API endpoints in Node.js connected to a PostgreSQL database.
+- Created Redis caching layer for frequently queried API endpoints.
+- Maintained unit tests with Jest and participated in peer code reviews on GitHub.
 
-Machine Learning Scientist | DataCore Labs | 2020 - 2022
-- Researched and implemented BERT-based NLP classification models for customer sentiment and intent recognition with 94.2% F1 score.
-- Cleaned and processed multi-terabyte datasets using Pandas, NumPy, and Apache Spark.
-- Collaborated with software engineers to integrate ML models into production PostgreSQL backend services.
+Junior Web Developer | Studio Alpha | 2020 - 2021
+- Worked on client-facing frontend sites using JavaScript, HTML5, and CSS3.
+- Integrated third-party REST APIs and assisted in bug fixing.
 
 EDUCATION
-- M.S. in Artificial Intelligence | Columbia University | 2018 - 2020
-- B.Tech in Computer Engineering | IIT Delhi | 2014 - 2018
+B.S. in Computer Science | State University | 2016 - 2020
 
-TECHNICAL EXPERTISE
-- AI / ML: PyTorch, TensorFlow, Hugging Face, Transformers, Scikit-Learn, Deep Learning, NLP, RAG, LLMs
-- Engineering: Python, FastAPI, Docker, PostgreSQL, AWS, Git, Data Analysis, System Design`,
+SKILLS
+React, TypeScript, Node.js, PostgreSQL, RESTful APIs, Git, Docker, Tailwind CSS, Redis, Unit Testing`,
   },
   {
-    id: "cand-marcus-vance",
-    fileName: "Marcus_Vance_DevOps_SRE.pdf",
-    candidateName: "Marcus Vance",
-    email: "marcus.vance.cloud@gmail.com",
-    phone: "+1 (555) 890-1234",
-    location: "Austin, TX",
-    linkedin: "https://linkedin.com/in/marcus-vance-devops",
-    github: "https://github.com/marcusv-infra",
+    id: "cand-demo-02",
+    fileName: "Demo_Candidate_02_Backend.pdf",
+    candidateName: "Demo Candidate 02 (Backend)",
+    email: "demo.candidate02@example.com",
+    phone: "+1 (555) 010-1002",
+    location: "Denver, CO",
+    linkedin: "https://linkedin.com/in/demo-candidate-02",
+    github: "https://github.com/demo-candidate-02",
+    extractedSkills: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "RESTful APIs",
+      "Git",
+      "Docker",
+      "Redis",
+      "SQL",
+      "Linux",
+    ],
+    extractedExperienceYears: 3,
+    extractedEducation: [
+      "B.S. in Software Engineering - Metro University (2021)",
+    ],
+    extractedRoles: [
+      "Backend Developer at DataFlow Systems (2021 - Present)",
+    ],
+    summary:
+      "Backend developer with 3 years of experience in Python, FastAPI, and PostgreSQL database design.",
+    rawText: `DEMO CANDIDATE 02 (BACKEND)
+Email: demo.candidate02@example.com | Phone: +1 (555) 010-1002 | Denver, CO
+LinkedIn: linkedin.com/in/demo-candidate-02 | GitHub: github.com/demo-candidate-02
+
+SUMMARY
+Backend Developer with 3 years of experience writing Python services, FastAPI applications, and PostgreSQL database queries.
+
+EXPERIENCE
+Backend Developer | DataFlow Systems | 2021 - Present
+- Designed and maintained REST APIs using Python and FastAPI.
+- Wrote database migrations, schema designs, and indexing in PostgreSQL.
+- Containerized local development environments with Docker.
+- Used Git and Linux for daily development workflows.
+
+EDUCATION
+B.S. in Software Engineering | Metro University | 2017 - 2021
+
+SKILLS
+Python, FastAPI, PostgreSQL, RESTful APIs, Git, Docker, Redis, SQL, Linux`,
+  },
+  {
+    id: "cand-demo-03",
+    fileName: "Demo_Candidate_03_DevOps.pdf",
+    candidateName: "Demo Candidate 03 (DevOps)",
+    email: "demo.candidate03@example.com",
+    phone: "+1 (555) 010-1003",
+    location: "Seattle, WA",
+    linkedin: "https://linkedin.com/in/demo-candidate-03",
+    github: "https://github.com/demo-candidate-03",
     extractedSkills: [
       "AWS",
       "Docker",
       "Kubernetes",
-      "Terraform",
       "CI/CD",
       "Linux",
-      "Python",
       "Git",
+      "Terraform",
+      "Python",
       "Monitoring",
-      "Nginx",
-      "Security",
-      "Problem Solving",
     ],
     extractedExperienceYears: 4,
     extractedEducation: [
-      "B.S. in Information Systems - University of Texas at Austin (2019)",
+      "B.S. in Information Technology - Pacific University (2020)",
     ],
     extractedRoles: [
-      "Cloud & DevOps Engineer at ScaleGrid Inc. (2021 - Present)",
-      "Systems Administrator at Austin Tech Solutions (2019 - 2021)",
+      "DevOps Engineer at CloudBase (2021 - Present)",
+      "Junior Systems Admin at NetOps (2020 - 2021)",
     ],
     summary:
-      "DevOps and Cloud Infrastructure Engineer with 4 years of experience managing Kubernetes clusters, Terraform IaC, AWS infrastructure, and automated zero-downtime CI/CD deployment pipelines.",
-    rawText: `MARCUS VANCE
-Email: marcus.vance.cloud@gmail.com | Phone: +1 (555) 890-1234 | Austin, TX
-LinkedIn: linkedin.com/in/marcus-vance-devops | GitHub: github.com/marcusv-infra
+      "DevOps engineer with 4 years of experience working with AWS, Docker, Kubernetes, and CI/CD pipelines.",
+    rawText: `DEMO CANDIDATE 03 (DEVOPS)
+Email: demo.candidate03@example.com | Phone: +1 (555) 010-1003 | Seattle, WA
+LinkedIn: linkedin.com/in/demo-candidate-03 | GitHub: github.com/demo-candidate-03
 
-PROFILE
-DevOps & Cloud Engineer with 4 years of experience architecting resilient AWS infrastructure, Kubernetes orchestration, and automated CI/CD pipelines.
+SUMMARY
+DevOps Engineer with 4 years of experience managing AWS cloud infrastructure, Kubernetes clusters, and automated deployment pipelines.
 
 EXPERIENCE
-Cloud & DevOps Engineer | ScaleGrid Inc. | 2021 - Present
-- Automated multi-region AWS cloud infrastructure deployment using Terraform and CloudFormation.
-- Managed and scaled 15+ production Kubernetes (EKS) clusters supporting 200+ containerized microservices.
-- Created robust CI/CD workflows using GitHub Actions and ArgoCD, reducing release cycle time from 2 hours to 8 minutes.
-- Configured Prometheus, Grafana, and Datadog monitoring and alert policies, maintaining 99.98% service uptime.
+DevOps Engineer | CloudBase | 2021 - Present
+- Configured and deployed containerized services to Kubernetes on AWS.
+- Created CI/CD workflows using GitHub Actions for build and release automation.
+- Wrote Terraform configurations for managing cloud resources.
+- Monitored Linux server performance and set up alert notifications.
 
-Systems Administrator | Austin Tech Solutions | 2019 - 2021
-- Managed Linux server fleets (Ubuntu/RHEL), DNS, SSL certificates, and Nginx reverse proxies.
-- Developed Python and Bash automation scripts for server provisioning and backups.
+Junior Systems Admin | NetOps | 2020 - 2021
+- Maintained Linux instances and managed access permissions.
+- Wrote basic Python and Bash scripts for routine tasks.
 
 EDUCATION
-B.S. in Information Systems | University of Texas at Austin | 2015 - 2019
+B.S. in Information Technology | Pacific University | 2016 - 2020
 
-CORE SKILLS
-AWS, Docker, Kubernetes, Terraform, CI/CD, Linux, Python, Git, Monitoring, Nginx, Security, Bash Scripting`,
+SKILLS
+AWS, Docker, Kubernetes, CI/CD, Linux, Git, Terraform, Python, Monitoring`,
   },
   {
-    id: "cand-emily-chen",
-    fileName: "Emily_Chen_Frontend_Developer.pdf",
-    candidateName: "Emily Chen",
-    email: "emily.chen.ui@gmail.com",
-    phone: "+1 (555) 456-7890",
-    location: "Seattle, WA",
-    linkedin: "https://linkedin.com/in/emilychen-frontend",
-    github: "https://github.com/emilychen-design",
+    id: "cand-demo-04",
+    fileName: "Demo_Candidate_04_Frontend.pdf",
+    candidateName: "Demo Candidate 04 (Frontend)",
+    email: "demo.candidate04@example.com",
+    phone: "+1 (555) 010-1004",
+    location: "Chicago, IL",
+    linkedin: "https://linkedin.com/in/demo-candidate-04",
+    github: "https://github.com/demo-candidate-04",
     extractedSkills: [
       "React",
       "TypeScript",
@@ -204,90 +176,82 @@ AWS, Docker, Kubernetes, Terraform, CI/CD, Linux, Python, Git, Monitoring, Nginx
       "CSS3",
       "Tailwind CSS",
       "Next.js",
-      "Redux",
       "Git",
-      "Unit Testing",
       "RESTful APIs",
-      "Problem Solving",
-      "Communication",
     ],
-    extractedExperienceYears: 3,
+    extractedExperienceYears: 2,
     extractedEducation: [
-      "B.S. in Human-Computer Interaction & CS - University of Washington (2021)",
+      "B.A. in Digital Arts & CS - Midwest College (2022)",
     ],
     extractedRoles: [
-      "Frontend Developer at PixelCraft Studio (2021 - Present)",
+      "Frontend Developer at WebCraft (2022 - Present)",
     ],
     summary:
-      "Passionate Frontend Developer with 3 years of experience building accessible, responsive, and high-performance web applications using React, TypeScript, Tailwind CSS, and Next.js.",
-    rawText: `EMILY CHEN
-Email: emily.chen.ui@gmail.com | Phone: +1 (555) 456-7890 | Seattle, WA
-LinkedIn: linkedin.com/in/emilychen-frontend | GitHub: github.com/emilychen-design
+      "Frontend developer with 2 years of experience building accessible interfaces with React, TypeScript, and Tailwind CSS.",
+    rawText: `DEMO CANDIDATE 04 (FRONTEND)
+Email: demo.candidate04@example.com | Phone: +1 (555) 010-1004 | Chicago, IL
+LinkedIn: linkedin.com/in/demo-candidate-04 | GitHub: github.com/demo-candidate-04
 
 SUMMARY
-Frontend Developer with 3 years of hands-on experience crafting modern responsive web applications using React, TypeScript, Next.js, and Tailwind CSS. Obsessed with web accessibility (WCAG), performance optimization, and pixel-perfect design translation.
+Frontend Developer with 2 years of experience creating responsive user interfaces with React, TypeScript, Tailwind CSS, and Next.js.
 
 EXPERIENCE
-Frontend Developer | PixelCraft Studio | 2021 - Present
-- Developed 10+ client web applications and SaaS dashboards using React, TypeScript, and Next.js.
-- Implemented design systems and reusable component kits with Tailwind CSS, Framer Motion, and Storybook.
-- Integrated RESTful APIs with React Query and Redux Toolkit for seamless asynchronous state management.
-- Improved Google Lighthouse Performance scores from 62 to 98 across core web pages.
-- Authored unit and component tests using Vitest and React Testing Library.
+Frontend Developer | WebCraft | 2022 - Present
+- Built user interfaces based on Figma specifications in React and TypeScript.
+- Styled components using Tailwind CSS and CSS3.
+- Integrated REST APIs for dynamic content rendering.
+- Used Git for team collaboration and code reviews.
 
 EDUCATION
-B.S. in Human-Computer Interaction & Computer Science | University of Washington | 2017 - 2021
+B.A. in Digital Arts & CS | Midwest College | 2018 - 2022
 
 SKILLS
-React, TypeScript, JavaScript, HTML5, CSS3, Tailwind CSS, Next.js, Redux, RESTful APIs, Git, Unit Testing, Responsive Design`,
+React, TypeScript, JavaScript, HTML5, CSS3, Tailwind CSS, Next.js, Git, RESTful APIs`,
   },
   {
-    id: "cand-david-miller",
-    fileName: "David_Miller_Junior_Developer.pdf",
-    candidateName: "David Miller",
-    email: "david.miller.junior@gmail.com",
-    phone: "+1 (555) 678-9012",
-    location: "Chicago, IL",
-    linkedin: "https://linkedin.com/in/davidmiller-qa",
-    github: "https://github.com/dmiller-code",
+    id: "cand-demo-05",
+    fileName: "Demo_Candidate_05_Junior.pdf",
+    candidateName: "Demo Candidate 05 (Junior)",
+    email: "demo.candidate05@example.com",
+    phone: "+1 (555) 010-1005",
+    location: "Raleigh, NC",
+    linkedin: "https://linkedin.com/in/demo-candidate-05",
+    github: "https://github.com/demo-candidate-05",
     extractedSkills: [
       "JavaScript",
       "HTML5",
       "CSS3",
       "React",
       "Git",
-      "Unit Testing",
-      "Problem Solving",
-      "Adaptability",
     ],
     extractedExperienceYears: 1,
     extractedEducation: [
-      "Certificate in Full Stack Web Development - Coding Bootcamp (2023)",
-      "B.A. in Business Administration - DePaul University (2020)",
+      "Full Stack Web Development Certificate - Tech Bootcamp (2023)",
+      "B.S. in Biology - State University (2021)",
     ],
     extractedRoles: [
-      "QA Tester & Junior Web Developer at Apex Tech (2023 - Present)",
+      "Junior Web Developer Intern at AppWorks (2023 - Present)",
     ],
     summary:
-      "Motivated Junior Developer transitioning from Quality Assurance. Proficient in JavaScript, React, HTML5, CSS, and automated testing with a high eagerness to learn full-stack development.",
-    rawText: `DAVID MILLER
-Email: david.miller.junior@gmail.com | Phone: +1 (555) 678-9012 | Chicago, IL
-LinkedIn: linkedin.com/in/davidmiller-qa | GitHub: github.com/dmiller-code
+      "Junior developer with foundational experience in JavaScript, React, and Git from practical projects and bootcamp training.",
+    rawText: `DEMO CANDIDATE 05 (JUNIOR)
+Email: demo.candidate05@example.com | Phone: +1 (555) 010-1005 | Raleigh, NC
+LinkedIn: linkedin.com/in/demo-candidate-05 | GitHub: github.com/demo-candidate-05
 
-OBJECTIVE
-Energetic and motivated Junior Developer with 1 year of experience in QA testing and front-end development, seeking an associate developer role to expand skills in TypeScript, React, and backend technologies.
+SUMMARY
+Junior Developer seeking an associate development role. Proficient in JavaScript, HTML5, CSS3, and React.
 
 EXPERIENCE
-QA Tester & Junior Web Developer | Apex Tech | 2023 - Present
-- Conducted manual and automated regression tests on customer portals using Cypress and Jest.
-- Assisted engineering team with bug fixes and UI component updates in JavaScript and HTML/CSS.
-- Participated in daily Agile standups and sprint planning.
+Junior Web Developer Intern | AppWorks | 2023 - Present
+- Built basic UI components using React and JavaScript.
+- Assisted senior developers with bug fixing and documentation.
+- Participated in daily standups and used Git for version control.
 
 EDUCATION
-- Certificate in Full Stack Web Development | FullStack Academy | 2023
-- B.A. in Business Administration | DePaul University | 2016 - 2020
+- Full Stack Web Development Certificate | Tech Bootcamp | 2023
+- B.S. in Biology | State University | 2017 - 2021
 
 SKILLS
-JavaScript, HTML5, CSS3, React, Git, Unit Testing, Cypress, Problem Solving, Adaptability`,
+JavaScript, HTML5, CSS3, React, Git`,
   },
 ];

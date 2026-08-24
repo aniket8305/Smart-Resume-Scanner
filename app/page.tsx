@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";
 import { Navbar } from "@/components/Navbar";
 import { HeroStats } from "@/components/HeroStats";
+import { HowItWorks } from "@/components/HowItWorks";
 import { JobDescriptionCard } from "@/components/JobDescriptionCard";
 import { ResumeUploader } from "@/components/ResumeUploader";
 import { WeightingControls } from "@/components/WeightingControls";
@@ -75,18 +76,18 @@ export default function Home() {
       if (isManualClick) {
         // Step 1
         setScreeningProgress(20);
-        setScreeningStepMessage(`Parsing ${currentCandidates.length} candidate resumes & extracting metadata...`);
-        await new Promise((r) => setTimeout(r, 250));
+        setScreeningStepMessage(`Parsing ${currentCandidates.length} resume(s)...`);
+        await new Promise((r) => setTimeout(r, 200));
 
         // Step 2
         setScreeningProgress(55);
-        setScreeningStepMessage(`Matching against ${currentJob.requiredSkills.length} required skills & taxonomy...`);
-        await new Promise((r) => setTimeout(r, 250));
+        setScreeningStepMessage(`Matching against ${currentJob.requiredSkills.length} required skills...`);
+        await new Promise((r) => setTimeout(r, 200));
 
         // Step 3
         setScreeningProgress(85);
-        setScreeningStepMessage("Computing TF-IDF semantic relevance & experience weights...");
-        await new Promise((r) => setTimeout(r, 200));
+        setScreeningStepMessage("Computing TF-IDF text similarity & experience weights...");
+        await new Promise((r) => setTimeout(r, 150));
       }
 
       let finalResults: ScreeningResult[] = [];
@@ -110,11 +111,11 @@ export default function Home() {
             finalResults = data.results || [];
           }
         } catch (error) {
-          console.warn("AI screening failed, falling back to local NLP engine", error);
+          console.warn("Gemini API call failed, falling back to local text matcher", error);
         }
       }
 
-      // Fast local NLP screening engine fallback or default
+      // Local TF-IDF & Taxonomy scoring engine
       if (finalResults.length === 0) {
         finalResults = screenCandidatesBatch(
           currentCandidates,
@@ -125,23 +126,23 @@ export default function Home() {
 
       if (isManualClick) {
         setScreeningProgress(100);
-        setScreeningStepMessage("Screening complete! Ranking candidate leaderboard...");
-        await new Promise((r) => setTimeout(r, 200));
+        setScreeningStepMessage("Screening complete. Ordering leaderboard...");
+        await new Promise((r) => setTimeout(r, 150));
       }
 
       setResults(finalResults);
       setIsProcessing(false);
       setScreeningProgress(null);
 
-      // Celebrate top matches and notify user
+      // Notify user
       if (isManualClick) {
-        setToastMessage(`✨ Successfully screened & ranked ${finalResults.length} candidates!`);
-        setTimeout(() => setToastMessage(null), 4000);
+        setToastMessage(`Screened & ranked ${finalResults.length} candidates.`);
+        setTimeout(() => setToastMessage(null), 3500);
 
         try {
           confetti({
-            particleCount: 80,
-            spread: 70,
+            particleCount: 50,
+            spread: 60,
             origin: { y: 0.6 },
           });
         } catch (e) {
@@ -152,16 +153,6 @@ export default function Home() {
         const el = document.getElementById("leaderboard-section");
         if (el) {
           el.scrollIntoView({ behavior: "smooth" });
-        }
-      } else if (finalResults.length > 0 && finalResults[0].score.overallScore >= 90) {
-        try {
-          confetti({
-            particleCount: 40,
-            spread: 50,
-            origin: { y: 0.7 },
-          });
-        } catch (e) {
-          // Ignore
         }
       }
     },
@@ -247,7 +238,7 @@ export default function Home() {
         hasApiKey={Boolean(apiKey)}
         onOpenApiKeyModal={() => setIsApiKeyModalOpen(true)}
         onResetAll={handleResetAll}
-        isAiLoading={isProcessing}
+        isProcessing={isProcessing}
       />
 
       {/* Main Container */}
@@ -255,7 +246,10 @@ export default function Home() {
         {/* KPI Hero Stats */}
         <HeroStats results={results} />
 
-        {/* Scoring Weights Matrix Controls */}
+        {/* How It Works & Transparency Accordion */}
+        <HowItWorks />
+
+        {/* Scoring Weights Section */}
         <WeightingControls weights={weights} onWeightsChange={setWeights} />
 
         {/* 2-Column Core Workbench */}
@@ -263,7 +257,7 @@ export default function Home() {
           {/* Target Job Specification */}
           <JobDescriptionCard job={job} onJobChange={setJob} />
 
-          {/* Resume Upload & Pipeline Pipeline */}
+          {/* Resume Upload & Pipeline */}
           <ResumeUploader
             candidates={candidates}
             onCandidatesChange={setCandidates}
@@ -286,43 +280,37 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Interactive Screening Progress Modal */}
+      {/* Screening Progress Modal */}
       {screeningProgress !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
           <div className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl border border-slate-100 dark:bg-slate-900 dark:border-slate-800 text-center space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400">
-              <div className="relative flex items-center justify-center">
-                <span className="text-xl font-extrabold">{screeningProgress}%</span>
-              </div>
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+              <span className="text-lg font-bold">{screeningProgress}%</span>
             </div>
 
             <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                AI Screening in Progress
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                Screening Candidates
               </h3>
-              <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mt-1">
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-1">
                 {screeningStepMessage}
               </p>
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden p-0.5 border border-slate-200 dark:border-slate-700">
+            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-200 dark:border-slate-700">
               <div
-                className="h-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 rounded-full transition-all duration-300 ease-out"
+                className="h-full bg-slate-900 dark:bg-indigo-600 rounded-full transition-all duration-200 ease-out"
                 style={{ width: `${screeningProgress}%` }}
               />
             </div>
-
-            <p className="text-[11px] text-slate-400">
-              Evaluating skill taxonomies, experience seniority, and semantic alignment...
-            </p>
           </div>
         </div>
       )}
 
       {/* Floating Success Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-2.5 rounded-2xl bg-slate-900 px-4 py-3 text-xs font-semibold text-white shadow-2xl border border-slate-800 animate-bounce">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-2.5 rounded-2xl bg-slate-900 px-4 py-3 text-xs font-semibold text-white shadow-xl border border-slate-800">
           <div className="rounded-full bg-emerald-500/20 p-1 text-emerald-400">
             ✓
           </div>
@@ -330,7 +318,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Candidate Profile Deep Dive Modal */}
+      {/* Candidate Profile Modal */}
       <CandidateDetailModal
         candidateResult={selectedCandidate}
         job={job}
@@ -358,11 +346,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white py-6 dark:border-slate-800 dark:bg-slate-900 mt-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
-          <p>© {new Date().getFullYear()} TalentScan AI — Smart Resume Screener & Evaluation Platform.</p>
+          <p>© {new Date().getFullYear()} TalentScan</p>
           <div className="flex items-center space-x-4">
-            <span>Hybrid NLP & Gemini AI Engine</span>
-            <span>•</span>
-            <span>Production Ready</span>
+            <span>Resume Screening & Candidate Ranking</span>
           </div>
         </div>
       </footer>

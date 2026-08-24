@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   X,
-  Award,
   CheckCircle2,
   AlertTriangle,
-  HelpCircle,
-  FileText,
   Mail,
   Phone,
   MapPin,
@@ -15,9 +12,9 @@ import {
   Github,
   Copy,
   Check,
-  Sparkles,
   UserCheck,
   XCircle,
+  Calculator,
 } from "lucide-react";
 import {
   Radar,
@@ -48,7 +45,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
   const [notes, setNotes] = useState("");
   const [copiedQuestionIndex, setCopiedQuestionIndex] = useState<number | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (candidateResult?.score?.recruiterNotes !== undefined) {
       setNotes(candidateResult.score.recruiterNotes || "");
     }
@@ -59,11 +56,11 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
   const { candidate, score } = candidateResult;
 
   const radarData = [
-    { metric: "Technical", value: score.technicalScore, fullMark: 100 },
+    { metric: "Skills Match", value: score.technicalScore, fullMark: 100 },
     { metric: "Experience", value: score.experienceScore, fullMark: 100 },
     { metric: "Education", value: score.educationScore, fullMark: 100 },
-    { metric: "Semantic Fit", value: score.keywordScore, fullMark: 100 },
-    { metric: "Role Match", value: score.overallScore, fullMark: 100 },
+    { metric: "TF-IDF Text Match", value: score.keywordScore, fullMark: 100 },
+    { metric: "Overall Score", value: score.overallScore, fullMark: 100 },
   ];
 
   const handleCopyQuestion = (question: string, index: number) => {
@@ -80,7 +77,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
       <div className="relative w-full max-w-4xl rounded-3xl bg-white shadow-2xl border border-slate-100 dark:bg-slate-900 dark:border-slate-800 my-8 overflow-hidden transition-all">
         {/* Modal Header */}
-        <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 p-6 text-white relative">
+        <div className="bg-slate-900 p-6 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-5 right-5 rounded-full bg-white/10 p-2 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
@@ -92,29 +89,29 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
             <div>
               <div className="flex items-center space-x-3">
                 <h2 className="text-2xl font-bold">{candidate.candidateName}</h2>
-                <span className="rounded-full bg-white/20 px-3 py-0.5 text-xs font-semibold text-indigo-100 border border-white/30 capitalize">
+                <span className="rounded-full bg-white/20 px-3 py-0.5 text-xs font-semibold text-slate-200 border border-white/30 capitalize">
                   {score.status}
                 </span>
               </div>
-              <p className="text-sm text-indigo-200 mt-1">{candidate.fileName}</p>
+              <p className="text-sm text-slate-300 mt-1">{candidate.fileName}</p>
 
               {/* Contact meta */}
-              <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-indigo-100/90">
+              <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-300">
                 {candidate.email && (
                   <span className="flex items-center space-x-1">
-                    <Mail className="h-3.5 w-3.5 text-indigo-300" />
+                    <Mail className="h-3.5 w-3.5 text-slate-400" />
                     <span>{candidate.email}</span>
                   </span>
                 )}
                 {candidate.phone && (
                   <span className="flex items-center space-x-1">
-                    <Phone className="h-3.5 w-3.5 text-indigo-300" />
+                    <Phone className="h-3.5 w-3.5 text-slate-400" />
                     <span>{candidate.phone}</span>
                   </span>
                 )}
                 {candidate.location && (
                   <span className="flex items-center space-x-1">
-                    <MapPin className="h-3.5 w-3.5 text-indigo-300" />
+                    <MapPin className="h-3.5 w-3.5 text-slate-400" />
                     <span>{candidate.location}</span>
                   </span>
                 )}
@@ -125,7 +122,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                     rel="noreferrer"
                     className="flex items-center space-x-1 text-white hover:underline"
                   >
-                    <Linkedin className="h-3.5 w-3.5 text-indigo-300" />
+                    <Linkedin className="h-3.5 w-3.5 text-slate-400" />
                     <span>LinkedIn</span>
                   </a>
                 )}
@@ -136,21 +133,21 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                     rel="noreferrer"
                     className="flex items-center space-x-1 text-white hover:underline"
                   >
-                    <Github className="h-3.5 w-3.5 text-indigo-300" />
+                    <Github className="h-3.5 w-3.5 text-slate-400" />
                     <span>GitHub</span>
                   </a>
                 )}
               </div>
             </div>
 
-            {/* Overall Score Circle Badge */}
-            <div className="flex items-center space-x-3 bg-white/10 rounded-2xl p-3 border border-white/20 backdrop-blur-md">
+            {/* Overall Score Box */}
+            <div className="flex items-center space-x-3 bg-white/10 rounded-2xl p-4 border border-white/20">
               <div className="flex flex-col items-center">
                 <span className="text-3xl font-extrabold text-white">
                   {score.overallScore}%
                 </span>
-                <span className="text-[10px] uppercase font-semibold text-indigo-200 tracking-wider">
-                  Target Fit
+                <span className="text-[10px] uppercase font-semibold text-slate-300 tracking-wider">
+                  Overall Score
                 </span>
               </div>
             </div>
@@ -163,31 +160,31 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
             onClick={() => setActiveTab("analysis")}
             className={`py-3 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
               activeTab === "analysis"
-                ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
+                ? "border-slate-900 text-slate-900 dark:border-white dark:text-white"
                 : "border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400"
             }`}
           >
-            Match Breakdown & Radar
+            Score Breakdown
           </button>
           <button
             onClick={() => setActiveTab("questions")}
             className={`py-3 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
               activeTab === "questions"
-                ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
+                ? "border-slate-900 text-slate-900 dark:border-white dark:text-white"
                 : "border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400"
             }`}
           >
-            AI Interview Questions ({score.tailoredInterviewQuestions.length})
+            Interview Questions ({score.tailoredInterviewQuestions.length})
           </button>
           <button
             onClick={() => setActiveTab("resume")}
             className={`py-3 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
               activeTab === "resume"
-                ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
+                ? "border-slate-900 text-slate-900 dark:border-white dark:text-white"
                 : "border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400"
             }`}
           >
-            Extracted Resume Text
+            Parsed Resume Text
           </button>
         </div>
 
@@ -195,13 +192,12 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
         <div className="p-6 max-h-[68vh] overflow-y-auto space-y-6">
           {activeTab === "analysis" && (
             <>
-              {/* Executive Summary */}
-              <div className="rounded-2xl bg-indigo-50/70 p-4 border border-indigo-100 dark:bg-indigo-950/40 dark:border-indigo-900/60">
-                <div className="flex items-center space-x-2 text-indigo-800 dark:text-indigo-300 font-bold text-xs mb-1">
-                  <Sparkles className="h-4 w-4 text-indigo-600" />
-                  <span>Executive Assessment</span>
-                </div>
-                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+              {/* Candidate Summary */}
+              <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 text-xs block mb-1">
+                  Candidate Assessment Summary
+                </span>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   {score.executiveSummary}
                 </p>
               </div>
@@ -212,48 +208,48 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
                     <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Technical Skills
+                      Skills Match (40%)
                     </span>
-                    <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">
+                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                       {score.technicalScore}%
                     </p>
-                    <span className="text-[10px] text-slate-400">
-                      {score.matchedSkills.length} of {job.requiredSkills.length} matched
+                    <span className="text-[10px] text-slate-500">
+                      {score.matchedSkills.length} of {job.requiredSkills.length} required matched
                     </span>
                   </div>
 
                   <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
                     <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Experience
+                      Experience (25%)
                     </span>
-                    <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
+                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                       {score.experienceScore}%
                     </p>
-                    <span className="text-[10px] text-slate-400">
-                      ~{candidate.extractedExperienceYears} yrs vs {job.minYearsExperience} req
+                    <span className="text-[10px] text-slate-500">
+                      ~{candidate.extractedExperienceYears} yrs vs {job.minYearsExperience} yrs target
                     </span>
                   </div>
 
                   <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
                     <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Education
+                      Education (15%)
                     </span>
-                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                       {score.educationScore}%
                     </p>
-                    <span className="text-[10px] text-slate-400">
-                      {candidate.extractedEducation[0] || "Standard Degree"}
+                    <span className="text-[10px] text-slate-500">
+                      {candidate.extractedEducation[0] || "Degree / Equivalent"}
                     </span>
                   </div>
 
                   <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
                     <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Context Similarity
+                      TF-IDF Text Match (20%)
                     </span>
-                    <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">
+                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                       {score.keywordScore}%
                     </p>
-                    <span className="text-[10px] text-slate-400">TF-IDF Vector Cosine</span>
+                    <span className="text-[10px] text-slate-500">Cosine text similarity</span>
                   </div>
                 </div>
 
@@ -264,15 +260,15 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                       <PolarGrid stroke="#cbd5e1" strokeDasharray="3 3" />
                       <PolarAngleAxis
                         dataKey="metric"
-                        tick={{ fill: "#64748b", fontSize: 11, fontWeight: 600 }}
+                        tick={{ fill: "#64748b", fontSize: 10, fontWeight: 600 }}
                       />
                       <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#cbd5e1" />
                       <Radar
-                        name="Fit"
+                        name="Score"
                         dataKey="value"
-                        stroke="#6366f1"
-                        fill="#6366f1"
-                        fillOpacity={0.45}
+                        stroke="#0f172a"
+                        fill="#0f172a"
+                        fillOpacity={0.25}
                       />
                     </RadarChart>
                   </ResponsiveContainer>
@@ -282,8 +278,8 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
               {/* Skills Analysis */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Matched Skills */}
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-4 dark:border-emerald-900/60 dark:bg-emerald-950/20">
-                  <div className="flex items-center space-x-1.5 text-emerald-800 dark:text-emerald-300 font-bold text-xs mb-2">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/40 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                  <div className="flex items-center space-x-1.5 text-slate-800 dark:text-slate-200 font-bold text-xs mb-2">
                     <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                     <span>Matched Skills ({score.matchedSkills.length})</span>
                   </div>
@@ -292,7 +288,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                       score.matchedSkills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-lg bg-emerald-100/80 px-2 py-1 text-xs font-semibold text-emerald-800 border border-emerald-300 dark:bg-emerald-900/50 dark:text-emerald-200 dark:border-emerald-700"
+                          className="rounded-lg bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
                         >
                           ✓ {skill}
                         </span>
@@ -304,24 +300,24 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                 </div>
 
                 {/* Missing Skills */}
-                <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-4 dark:border-rose-900/60 dark:bg-rose-950/20">
-                  <div className="flex items-center space-x-1.5 text-rose-800 dark:text-rose-300 font-bold text-xs mb-2">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/40 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                  <div className="flex items-center space-x-1.5 text-slate-800 dark:text-slate-200 font-bold text-xs mb-2">
                     <AlertTriangle className="h-4 w-4 text-rose-600" />
-                    <span>Missing Target Skills ({score.missingSkills.length})</span>
+                    <span>Missing Skills ({score.missingSkills.length})</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {score.missingSkills.length > 0 ? (
                       score.missingSkills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-lg bg-rose-100/80 px-2 py-1 text-xs font-semibold text-rose-800 border border-rose-300 dark:bg-rose-900/50 dark:text-rose-200 dark:border-rose-700"
+                          className="rounded-lg bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-800 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800"
                         >
                           ✕ {skill}
                         </span>
                       ))
                     ) : (
                       <span className="text-xs text-emerald-600 font-medium">
-                        All mandatory requirements satisfied!
+                        All mandatory requirements satisfied
                       </span>
                     )}
                   </div>
@@ -330,10 +326,10 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
 
               {/* Strengths and Gaps */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Key Strengths */}
+                {/* Strengths */}
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/60">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 mb-2">
-                    Key Highlights & Strengths
+                    Identified Strengths
                   </h4>
                   <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
                     {score.keyStrengths.map((str, i) => (
@@ -348,7 +344,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                 {/* Gap Analysis */}
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/60">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 mb-2">
-                    Gaps & Areas to Probe
+                    Gaps & Areas to Verify
                   </h4>
                   <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
                     {score.gapAnalysis.map((gap, i) => (
@@ -365,7 +361,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
               <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    Recruiter Evaluation Notes
+                    Recruiter Notes & Candidate Status
                   </label>
                   <div className="flex items-center space-x-2">
                     <button
@@ -377,9 +373,9 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                     </button>
                     <button
                       onClick={() => onStatusChange(candidate.id, "interview")}
-                      className="inline-flex items-center space-x-1 rounded-lg bg-indigo-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-indigo-500 transition-colors"
+                      className="inline-flex items-center space-x-1 rounded-lg bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 transition-colors"
                     >
-                      <span>Schedule Interview</span>
+                      <span>Interview</span>
                     </button>
                     <button
                       onClick={() => onStatusChange(candidate.id, "rejected")}
@@ -396,7 +392,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   onBlur={handleNotesBlur}
-                  placeholder="Type internal candidate feedback, screening notes, or interview observations here..."
+                  placeholder="Enter evaluation notes or feedback..."
                   className="w-full rounded-xl border border-slate-200 bg-white p-2.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                 />
               </div>
@@ -408,10 +404,10 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                    Tailored Interview Questions for {candidate.candidateName}
+                    Targeted Interview Questions for {candidate.candidateName}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Generated dynamically based on candidate&apos;s exact resume claims and target job requirements
+                    Generated based on candidate&apos;s matched skills and identified gaps
                   </p>
                 </div>
               </div>
@@ -423,7 +419,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                     className="flex items-start justify-between rounded-2xl border border-slate-200 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-800/40"
                   >
                     <div className="flex items-start space-x-3">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold flex-shrink-0">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-white text-xs font-bold flex-shrink-0 dark:bg-indigo-600">
                         {idx + 1}
                       </span>
                       <p className="text-xs font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
@@ -457,7 +453,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-slate-500 uppercase">
-                  Raw Parsed Content ({candidate.rawText.length} characters)
+                  Extracted Resume Text ({candidate.rawText.length} characters)
                 </span>
               </div>
               <pre className="w-full rounded-2xl border border-slate-200 bg-slate-900 text-slate-100 p-4 text-xs font-mono whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
@@ -476,7 +472,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
             onClick={onClose}
             className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 transition-colors"
           >
-            Close Profile
+            Close
           </button>
         </div>
       </div>
