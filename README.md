@@ -685,7 +685,3 @@ The project focuses on the core requirements expected from a practical screening
 * Optional AI integration
 
 ---
-
-## 📜 License
-
-MIT License © 2026 TalentScan
