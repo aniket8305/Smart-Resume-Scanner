@@ -41,11 +41,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Mode Indicator */}
           <button
             onClick={onOpenApiKeyModal}
-            className={`inline-flex items-center space-x-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
-              hasApiKey
+            className={`inline-flex items-center space-x-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${hasApiKey
                 ? "bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800"
                 : "bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
-            }`}
+              }`}
             title="Configure optional Gemini API Key"
           >
             <Key className="h-3.5 w-3.5" />
