@@ -152,7 +152,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           ref={fileInputRef}
           type="file"
           multiple
-          accept=".pdf,.docx,.txt,.md"
+          accept=".pdf,.docx,.txt,.md,.png,.jpg,.jpeg,.webp"
           onChange={handleFileInputChange}
           className="hidden"
         />
@@ -165,7 +165,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           Click to browse or drag and drop resumes here
         </p>
         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-          Supports PDF, Word (.docx), and TXT files
+          Supports PDF (digital & scanned), Word (.docx), TXT, and Images
         </p>
       </div>
 
