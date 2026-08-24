@@ -238,12 +238,7 @@ export async function extractTextFromFile(file: File): Promise<string> {
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    if (err.requiresApiKey) {
-      throw new Error(
-        `Scanned or image document detected in ${file.name}. Please set your Gemini API Key in the settings (top nav) to enable AI Vision OCR.`
-      );
-    }
-    throw new Error(err.error || `Failed to parse ${file.name}`);
+    throw new Error(err.error || `Failed to parse ${file.name}. Please ensure the file is readable and not password-protected.`);
   }
 
   const data = await res.json();

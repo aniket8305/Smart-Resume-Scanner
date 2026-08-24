@@ -13,10 +13,10 @@ function isValidResumeText(text: string): boolean {
   if (!text || typeof text !== "string") return false;
   const trimmed = text.trim();
 
-  // Must have at least 60 characters and 10 words
-  if (trimmed.length < 60) return false;
+  // Must have at least 40 characters and 8 words
+  if (trimmed.length < 40) return false;
   const words = trimmed.split(/\s+/).filter((w) => w.length > 0);
-  if (words.length < 10) return false;
+  if (words.length < 8) return false;
 
   // Check for raw binary PDF stream markers
   const pdfBinaryMarkers = [
@@ -39,16 +39,15 @@ function isValidResumeText(text: string): boolean {
     }
   }
 
-  // If text starts with %PDF or has multiple raw PDF syntax markers, it's raw stream leak
   if (lower.startsWith("%pdf-") || binaryMarkerCount >= 3) {
     return false;
   }
 
-  // Check alphanumeric density (readable English text has > 50% letters/numbers)
+  // Check alphanumeric density
   const alphaNumericMatches = trimmed.match(/[a-zA-Z0-9]/g);
   const alphaNumericCount = alphaNumericMatches ? alphaNumericMatches.length : 0;
   const ratio = alphaNumericCount / trimmed.length;
-  if (ratio < 0.45) {
+  if (ratio < 0.4) {
     return false;
   }
 
@@ -56,9 +55,25 @@ function isValidResumeText(text: string): boolean {
 }
 
 /**
- * Extracts plain text from binary PDF data using pdfjs-dist with layout reconstruction
+ * Extracts plain text from binary PDF data using pdf-parse (pure Node native extractor)
  */
-async function extractTextFromPDF(buffer: Buffer): Promise<string> {
+async function extractWithPdfParse(buffer: Buffer): Promise<string> {
+  try {
+    const { PDFParse } = await import("pdf-parse");
+    const parser = new PDFParse({ data: buffer });
+    const data = await parser.getText();
+    await parser.destroy();
+    return (data.text || "").trim();
+  } catch (error) {
+    console.warn("pdf-parse extraction failed:", error);
+    return "";
+  }
+}
+
+/**
+ * Fallback digital PDF extraction using pdfjs-dist
+ */
+async function extractWithPdfJs(buffer: Buffer): Promise<string> {
   try {
     const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.js");
 
@@ -84,7 +99,6 @@ async function extractTextFromPDF(buffer: Buffer): Promise<string> {
 
         const currentY = item.transform ? item.transform[5] : null;
 
-        // Line break on noticeable vertical coordinate shift
         if (lastY !== null && currentY !== null && Math.abs(currentY - lastY) > 6) {
           pageText += "\n";
         } else if (
@@ -115,7 +129,7 @@ async function extractTextFromPDF(buffer: Buffer): Promise<string> {
 
     return fullText.trim();
   } catch (error) {
-    console.warn("Digital PDF extraction failed:", error);
+    console.warn("pdfjs extraction failed:", error);
     return "";
   }
 }
@@ -134,7 +148,23 @@ async function extractTextFromDocx(buffer: Buffer): Promise<string> {
 }
 
 /**
- * Performs OCR and text extraction using Gemini Multimodal Vision
+ * Free 100% offline OCR using Tesseract.js (Zero API key needed)
+ */
+async function extractWithTesseractOCR(buffer: Buffer): Promise<string> {
+  try {
+    const { createWorker } = await import("tesseract.js");
+    const worker = await createWorker("eng");
+    const ret = await worker.recognize(buffer);
+    await worker.terminate();
+    return (ret.data.text || "").trim();
+  } catch (error) {
+    console.error("Tesseract OCR error:", error);
+    return "";
+  }
+}
+
+/**
+ * Performs OCR and text extraction using Gemini Multimodal Vision (when API key is present)
  */
 async function extractWithGeminiVisionOCR(
   buffer: Buffer,
@@ -165,11 +195,10 @@ Guidelines:
       },
     ]);
 
-    const text = result.response.text();
-    return text.trim();
+    return result.response.text().trim();
   } catch (error: any) {
-    console.error("Gemini Vision OCR error:", error);
-    throw new Error(`Gemini OCR failed: ${error.message || "Unknown error"}`);
+    console.warn("Gemini Vision OCR fallback warning:", error.message);
+    return "";
   }
 }
 
@@ -193,45 +222,55 @@ export async function POST(req: NextRequest) {
     let extractedText = "";
     let extractionMethod = "direct";
 
-    // 1. Image Files (Directly use Vision OCR)
+    // 1. Image Files (PNG, JPG, JPEG, WEBP)
     if (["png", "jpg", "jpeg", "webp"].includes(extension)) {
-      if (!apiKey) {
-        return NextResponse.json(
-          {
-            error:
-              "Image-based resume uploaded. Please provide a Google Gemini API Key in the settings for Vision OCR.",
-            requiresApiKey: true,
-          },
-          { status: 422 }
-        );
-      }
       const mimeType = extension === "png" ? "image/png" : extension === "webp" ? "image/webp" : "image/jpeg";
-      extractedText = await extractWithGeminiVisionOCR(buffer, mimeType, apiKey);
-      extractionMethod = "gemini-vision-ocr";
+
+      // Try Gemini OCR if key available, else Tesseract.js free OCR
+      if (apiKey) {
+        extractedText = await extractWithGeminiVisionOCR(buffer, mimeType, apiKey);
+        if (extractedText) extractionMethod = "gemini-vision-ocr";
+      }
+
+      if (!extractedText) {
+        extractedText = await extractWithTesseractOCR(buffer);
+        extractionMethod = "tesseract-offline-ocr";
+      }
     }
     // 2. PDF Files
     else if (extension === "pdf") {
-      // Step 2a: Try digital PDF extraction first
-      extractedText = await extractTextFromPDF(buffer);
-      extractionMethod = "pdf-digital";
+      // Step 2a: Try pdf-parse first
+      extractedText = await extractWithPdfParse(buffer);
+      extractionMethod = "pdf-parse";
 
-      // Step 2b: If text is insufficient, corrupted, or scanned, fallback to Gemini Vision OCR
+      // Step 2b: If pdf-parse returned insufficient text, try pdfjs-dist
       if (!isValidResumeText(extractedText)) {
-        console.log(`[PDF Parse] Digital extraction returned insufficient text (${extractedText.length} chars). Attempting Vision OCR...`);
+        const altText = await extractWithPdfJs(buffer);
+        if (isValidResumeText(altText)) {
+          extractedText = altText;
+          extractionMethod = "pdfjs-dist";
+        }
+      }
+
+      // Step 2c: If digital text is still invalid or empty (scanned PDF), apply OCR
+      if (!isValidResumeText(extractedText)) {
+        console.log(`[PDF Parse] Scanned/empty PDF detected. Running OCR for ${fileName}...`);
+
+        // Try Gemini Vision OCR first if user configured an API key
         if (apiKey) {
-          extractedText = await extractWithGeminiVisionOCR(buffer, "application/pdf", apiKey);
-          extractionMethod = "gemini-vision-ocr";
-        } else {
-          // If digital text was somewhat present but short, only fail if completely empty
-          if (!extractedText || extractedText.trim().length === 0) {
-            return NextResponse.json(
-              {
-                error:
-                  "This PDF appears to be scanned or image-based with no embedded text. Please enter your Gemini API Key in the settings (top navigation bar) to enable AI Vision OCR, or upload a digital PDF/Word document.",
-                requiresApiKey: true,
-              },
-              { status: 422 }
-            );
+          const geminiText = await extractWithGeminiVisionOCR(buffer, "application/pdf", apiKey);
+          if (isValidResumeText(geminiText)) {
+            extractedText = geminiText;
+            extractionMethod = "gemini-vision-ocr";
+          }
+        }
+
+        // If no API key or Gemini failed, run free offline Tesseract OCR
+        if (!isValidResumeText(extractedText)) {
+          const tesseractText = await extractWithTesseractOCR(buffer);
+          if (tesseractText && tesseractText.trim().length > 0) {
+            extractedText = tesseractText;
+            extractionMethod = "tesseract-offline-ocr";
           }
         }
       }
@@ -256,7 +295,9 @@ export async function POST(req: NextRequest) {
 
     if (!extractedText || extractedText.trim().length === 0) {
       return NextResponse.json(
-        { error: "Parsed document was empty. Please check the file contents." },
+        {
+          error: `Could not extract readable text from ${fileName}. Please ensure the file is not empty or password protected.`,
+        },
         { status: 422 }
       );
     }
@@ -275,4 +316,5 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
 
