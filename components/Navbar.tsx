@@ -67,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* GitHub link */}
           <a
-            href="https://github.com"
+            href="https://github.com/aniket8305"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center space-x-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white shadow-sm transition-colors"

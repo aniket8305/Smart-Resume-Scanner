@@ -192,68 +192,95 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
         <div className="p-6 max-h-[68vh] overflow-y-auto space-y-6">
           {activeTab === "analysis" && (
             <>
-              {/* Candidate Summary */}
-              <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-                <span className="font-semibold text-slate-800 dark:text-slate-200 text-xs block mb-1">
-                  Candidate Assessment Summary
-                </span>
-                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {score.executiveSummary}
-                </p>
-              </div>
-
-              {/* Subscores Grid & Radar Chart */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                {/* 4 Metric Sub-Scores */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Skills Match (40%)
+              {/* Structured Score Breakdown Card */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-800/80">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-700 gap-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                      Overall Fit:
                     </span>
-                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-                      {score.technicalScore}%
-                    </p>
-                    <span className="text-[10px] text-slate-500">
-                      {score.matchedSkills.length} of {job.requiredSkills.length} required matched
+                    <span className="text-2xl font-extrabold text-slate-900 dark:text-white">
+                      {score.overallScore}%
                     </span>
                   </div>
+                  <span className="text-xs text-slate-400">
+                    Weighted combination of technical, experience, education, and text match
+                  </span>
+                </div>
 
-                  <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Experience (25%)
-                    </span>
-                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-                      {score.experienceScore}%
-                    </p>
-                    <span className="text-[10px] text-slate-500">
-                      ~{candidate.extractedExperienceYears} yrs vs {job.minYearsExperience} yrs target
-                    </span>
+                {/* 4-Factor Breakdown Table */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-4 border-b border-slate-100 dark:border-slate-700">
+                  <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
+                    <span className="text-[11px] font-semibold text-slate-500 uppercase block">Skills</span>
+                    <span className="text-xl font-bold text-slate-900 dark:text-white">{score.technicalScore}%</span>
                   </div>
-
-                  <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      Education (15%)
-                    </span>
-                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-                      {score.educationScore}%
-                    </p>
-                    <span className="text-[10px] text-slate-500">
-                      {candidate.extractedEducation[0] || "Degree / Equivalent"}
-                    </span>
+                  <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
+                    <span className="text-[11px] font-semibold text-slate-500 uppercase block">Experience</span>
+                    <span className="text-xl font-bold text-slate-900 dark:text-white">{score.experienceScore}%</span>
                   </div>
-
-                  <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 dark:border-slate-800 dark:bg-slate-800/50">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase">
-                      TF-IDF Text Match (20%)
-                    </span>
-                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-                      {score.keywordScore}%
-                    </p>
-                    <span className="text-[10px] text-slate-500">Cosine text similarity</span>
+                  <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
+                    <span className="text-[11px] font-semibold text-slate-500 uppercase block">Education</span>
+                    <span className="text-xl font-bold text-slate-900 dark:text-white">{score.educationScore}%</span>
+                  </div>
+                  <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700">
+                    <span className="text-[11px] font-semibold text-slate-500 uppercase block">Text Match</span>
+                    <span className="text-xl font-bold text-slate-900 dark:text-white">{score.keywordScore}%</span>
                   </div>
                 </div>
 
-                {/* Recharts Radar Chart */}
+                {/* Matched vs Missing Skills List */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                  {/* Matched Skills */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                      Matched Skills ({score.matchedSkills.length})
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {score.matchedSkills.length > 0 ? (
+                        score.matchedSkills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="inline-flex items-center space-x-1 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
+                          >
+                            <span>✓</span>
+                            <span>{skill}</span>
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-slate-400">No direct skills matched</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Missing Skills */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                      Missing Skills ({score.missingSkills.length})
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {score.missingSkills.length > 0 ? (
+                        score.missingSkills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="inline-flex items-center space-x-1 rounded-lg bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800"
+                          >
+                            <span>×</span>
+                            <span>{skill}</span>
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-emerald-600 font-medium">None missing</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Visual Radar Chart */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                  5-Axis Score Distribution
+                </h4>
                 <div className="h-56 w-full flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
