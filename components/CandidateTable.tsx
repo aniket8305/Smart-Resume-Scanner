@@ -180,7 +180,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                     <Briefcase className="h-8 w-8 text-slate-300 dark:text-slate-600" />
                     <p className="text-sm font-medium">No candidate resumes match current filter.</p>
                     <p className="text-xs text-slate-400">
-                      Upload resumes or click "Load 5 Test Candidates" to see real rankings!
+                      Upload resumes or click &quot;Load 5 Test Candidates&quot; to see real rankings!
                     </p>
                   </div>
                 </td>

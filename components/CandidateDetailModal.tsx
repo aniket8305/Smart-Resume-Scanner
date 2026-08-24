@@ -44,12 +44,19 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
   onStatusChange,
   onSaveNotes,
 }) => {
+  const [activeTab, setActiveTab] = useState<"analysis" | "questions" | "resume">("analysis");
+  const [notes, setNotes] = useState("");
+  const [copiedQuestionIndex, setCopiedQuestionIndex] = useState<number | null>(null);
+
+  React.useEffect(() => {
+    if (candidateResult?.score?.recruiterNotes !== undefined) {
+      setNotes(candidateResult.score.recruiterNotes || "");
+    }
+  }, [candidateResult]);
+
   if (!candidateResult) return null;
 
   const { candidate, score } = candidateResult;
-  const [activeTab, setActiveTab] = useState<"analysis" | "questions" | "resume">("analysis");
-  const [notes, setNotes] = useState(score.recruiterNotes || "");
-  const [copiedQuestionIndex, setCopiedQuestionIndex] = useState<number | null>(null);
 
   const radarData = [
     { metric: "Technical", value: score.technicalScore, fullMark: 100 },
@@ -404,7 +411,7 @@ export const CandidateDetailModal: React.FC<CandidateDetailModalProps> = ({
                     Tailored Interview Questions for {candidate.candidateName}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Generated dynamically based on candidate's exact resume claims and target job requirements
+                    Generated dynamically based on candidate&apos;s exact resume claims and target job requirements
                   </p>
                 </div>
               </div>
